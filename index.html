@@ -9,6 +9,7 @@
 			href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
 			integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
 			crossorigin="anonymous">
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
 		<script type="text/javascript" src="./JS/script.js"></script>
 </head>
 <!-- BODY --------------------------------------------------->
@@ -18,7 +19,43 @@
 			<div class="col-lg-4 col-md-2 col-xs-0"></div>
 			<!-- APP BOX -->
 			<div class="col-lg-4 col-md-8 col-xs-12" id="app-box">
-				<h1>Placeholder</h1>
+				<!-- SELECT PLAYERS MENU -->
+				<div class="row" id="player-select">
+					<div class="col-sm-12 p-select-title">
+						<h1>Number of players</h1>
+					</div>
+					<span class="row center">
+						<button type="button"
+							class="col-xs-12 p-button btn btn-primary btn-lg"
+							id="player1-btn">
+							1 Player
+						</button>
+						<button type="button"
+							class="col-xs-12 p-button btn btn-primary btn-lg"
+							id="player2-btn">
+							2 Players
+						</button>
+					</span>
+				</div>
+				<!-- SELECT SYMBOL MENU -->
+				<div class="row" id="symbol-select">
+					<div class="col-sm-12 p-select-title">
+						<h1>Player 1 Symbol</h1>
+					</div>
+					<span class="row center">
+						<button type="button"
+							class="col-xs-12 p-button btn btn-primary btn-lg"
+							id="x-symbol">
+							X
+						</button>
+						<button type="button"
+							class="col-xs-12 p-button btn btn-primary btn-lg"
+							id="o-symbol">
+							O
+						</button>
+					</span>
+				</div>
+				<!-- GAME BOARD -->
 			</div>
 			<div class="col-lg-4 col-md-2 col-xs-0"></div>
 		</div>

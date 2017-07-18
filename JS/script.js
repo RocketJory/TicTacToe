@@ -54,6 +54,12 @@ function resetBoard() {
 	$('#bottom-right').text('');
 };
 
+// Update win counters
+function updateScore() {
+	$('#p1text').text('player ' + p1Symbol + ': ' + p1wins);
+	$('#p2text').text('player ' + p2Symbol + ': ' + p2wins);
+};
+
 // Set the player symbols, go to next menu
 function setP1Symbol(symb) {
 	// Set symbols
@@ -66,8 +72,8 @@ function setP1Symbol(symb) {
 	pSymbols[0] = p1Symbol;
 	pSymbols[1] = p2Symbol;
 	// setup game board
-	$('#p1text').text('player ' + p1Symbol + ':');
-	$('#p2text').text('player ' + p2Symbol + ':');
+	$('#p1text').text('player ' + p1Symbol + ': 0');
+	$('#p2text').text('player ' + p2Symbol + ': 0');
 	$('#symbol-select').slideUp(animSpeed);
 	$('#game-board').delay(animSpeed).slideDown(animSpeed);
 	$('#extra-buttons').delay(animSpeed).slideDown(animSpeed);
@@ -98,15 +104,41 @@ function placeSymbol(row,col) {
 			// increment wins
 			if (playerTurn==0) {
 				p1wins += 1;
+				updateScore();
 			} else {
 				p2wins += 1;
+				updateScore();
 			}
 			resetBoard();
 			playerTurn = randPlayer();
 		// if not a win
 		} else {
-			playerTurn = nextPlayer(playerTurn);
+			// check for a tie
+			if ( checkForTie(gameBoard) ) {
+				alert("It's a tie!");
+				resetBoard();
+				playerTurn = randPlayer();
+			// if not a tie
+			} else {
+				playerTurn = nextPlayer(playerTurn);
+			};
 		};
+	};
+};
+
+function checkForTie(board) {
+	var symbCount = 0;
+	for (var i=0;i<3;i++) {
+		for (var j=0;j<3;j++) {
+			if (board[i][j] == p1Symbol || board[i][j] == p2Symbol) {
+				symbCount += 1;
+			};
+		};
+	};
+	if (symbCount==9) {
+		return true;
+	} else {
+		return false;
 	};
 };
 

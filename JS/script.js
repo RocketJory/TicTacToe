@@ -94,7 +94,7 @@ function placeSymbol(row,col) {
 	console.log(playerTurn);
 	if ( gameBoard[irow][icol] == '' ) {
 		console.log(idStr);
-		gameBoard[irow][icol] = pSymbols[playerTurn];
+		gameBoard[irow][icol] = symbol;
 		$(idStr).text(symbol);
 		console.log(gameBoard);
 		// if win
@@ -157,9 +157,9 @@ function checkForWin(board,sym) {
 			return true;
 		};
 	};
-	// check columsn
+	// check columns
 	for (var col=0;col<3;col++) {
-		if (board[0][col]==sym && board[1][col]==sym && board[2][col]) {
+		if (board[0][col]==sym && board[1][col]==sym && board[2][col]==sym) {
 			return true;
 		};
 	};

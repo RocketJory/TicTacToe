@@ -3,88 +3,108 @@ h1 {
 	text-align: center;
 }
 
+.hide-start {
+	display: none;
+}
+
 #app-box {
 	border-style: solid;
 	border-width: 0.5rem;
 	border-radius: 1rem;
-	margin-top: 3rem;
+	margin-top: 2rem;
 	padding: 3rem;
 	padding-bottom: 2rem;
 	background-color: white;
 	box-shadow: 5px 5px 5px rgba(0,0,0,.5);
 }
 
-#player-select {
-	display: none;
-}
-#symbol-select {
-	display: none;
-}
-#game-board {
-	display: none;
-}
+#player-select { }
+#symbol-select { }
+#game-board { }
 
 #top-left {
 	border-bottom: solid 0.25rem black;
 	border-right: solid 0.25rem black;
-	height: 20%;
+	height: 5rem;
 }
 #top-middle {
 	border-bottom: solid 0.25rem black;
 	border-right: solid 0.25rem black;
 	border-left: solid 0.25rem black;
-	height: 20%;
+	height: 5rem;
 }
 #top-right {
 	border-bottom: solid 0.25rem black;
 	border-left: solid 0.25rem black;
-	height: 20%;
+	height: 5rem;
 }
 #middle-left {
 	border-bottom: solid 0.25rem black;
 	border-top: solid 0.25rem black;
 	border-right: solid 0.25rem black;
-	height: 20%;
+	height: 5rem;
 }
 #middle-middle {
 	border-bottom: solid 0.25rem black;
 	border-right: solid 0.25rem black;
 	border-left: solid 0.25rem black;
 	border-top: solid 0.25rem black;
-	height: 20%;
+	height: 5rem;
 }
 #middle-right {
 	border-bottom: solid 0.25rem black;
 	border-left: solid 0.25rem black;
 	border-top: solid 0.25rem black;
-	height: 20%;
+	height: 5rem;
 }
 #bottom-left {
 	border-top: solid 0.25rem black;
 	border-right: solid 0.25rem black;
-	height: 20%;
+	height: 5rem;
 }
 #bottom-middle {
 	border-right: solid 0.25rem black;
 	border-left: solid 0.25rem black;
 	border-top: solid 0.25rem black;
-	height: 20%;
+	height: 5rem;
 }
 #bottom-right {
 	border-left: solid 0.25rem black;
 	border-top: solid 0.25rem black;
-	height: 20%;
+	height: 5rem;
 }
 
 .board-tile {
 	transition: 0.2s ease-in-out;
+	font-size: 5rem;
+	text-align: center;
+	height: 100%;
+	line-height: 100%;
+	vertical-align: middle;
 }
 .board-tile:hover {
 	background-color: #428bca;
 	cursor: pointer;
 }
 
-
 .p-button{
 	margin-top: 3rem;
+}
+
+#extra-buttons { }
+
+#restart-button {
+	float:left;
+	text-align: left;
+}
+#signature {
+	float: right;
+	text-align: right;
+}
+#turn-text {
+	text-align: center;
+}
+
+a:hover{
+	text-decoration: none;
 }

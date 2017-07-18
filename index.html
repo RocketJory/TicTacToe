@@ -20,7 +20,7 @@
 			<!-- APP BOX -->
 			<div class="col-lg-4 col-md-8 col-xs-12" id="app-box">
 				<!-- SELECT PLAYERS MENU -->
-				<div class="row" id="player-select">
+				<div class="row hide-start" id="player-select">
 					<div class="col-sm-12 p-select-title">
 						<h1>Number of players</h1>
 					</div>
@@ -38,7 +38,7 @@
 					</span>
 				</div>
 				<!-- SELECT SYMBOL MENU -->
-				<div class="row" id="symbol-select">
+				<div class="row hide-start" id="symbol-select">
 					<div class="col-sm-12 p-select-title">
 						<h1>Player 1 Symbol</h1>
 					</div>
@@ -56,14 +56,22 @@
 					</span>
 				</div>
 				<!-- GAME BOARD -->
-				<div class="row" id="game-board">
+				<div class="row hide-start" id="game-board">
 					<div class="col-sm-12">
 						<h1>Tic Tac Toe</h1>
 					</div>
+					<div class="row players">
+						<span class="col-xs-6">
+							<h3 id="p1text">Player 1: <span id="p1score">0</span></h3>
+						</span>
+						<span class="col-xs-6">
+							<h3 id="p2text">Player 2: <span id="p1score">0</span></h3>
+						</span>
+					</div>
 					<div class="row top-row">
-						<span class="col-xs-4 board-tile" id="top-left"></span>
-						<span class="col-xs-4 board-tile" id="top-middle"></span>
-						<span class="col-xs-4 board-tile" id="top-right"></span>
+						<div class="col-xs-4 board-tile" id="top-left"></div>
+						<div class="col-xs-4 board-tile" id="top-middle"></div>
+						<div class="col-xs-4 board-tile" id="top-right"></div>
 					</div>
 					<div class="row middle-row">
 						<span class="col-xs-4 board-tile" id="middle-left"></span>
@@ -75,9 +83,22 @@
 						<span class="col-xs-4 board-tile" id="bottom-middle"></span>
 						<span class="col-xs-4 board-tile" id="bottom-right"></span>
 					</div>
+					<div class="row">
+						<span class="col-xs-12">
+							<h3 id="turn-text"></h3>
+						</span>
+					</div>
 				</div>
 			</div>
 			<div class="col-lg-4 col-md-2 col-xs-0"></div>
+		</div>
+		<!--Restart button and signature-->
+		<div class="row hide-start" id="extra-buttons">
+			<div class="col-lg-4 col-md-2 col-xs-0"></div>
+			<div class="col-lg-4 col-md-8 col-xs-12">
+				<h5 id="restart-button"><a href="#">restart</a></h5>
+				<h5 id="signature">by <a href="#">Jory</a></h5>
+			</div>
 		</div>
 	</div>
 </body>

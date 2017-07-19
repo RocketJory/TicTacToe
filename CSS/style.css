@@ -1,5 +1,4 @@
-h1 {
-	color: black;
+.center-text {
 	text-align: center;
 }
 
@@ -82,7 +81,7 @@ h1 {
 	line-height: 100%;
 	vertical-align: middle;
 }
-.board-tile:hover {
+.board-tile.non-touch:hover {
 	background-color: #428bca;
 	cursor: pointer;
 }

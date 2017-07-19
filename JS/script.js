@@ -142,6 +142,20 @@ function checkForTie(board) {
 	};
 };
 
+function resetBtn() {
+	numPlayers = 0;
+	p1Symbol = '';
+	p2Symbol = '';
+	p1wins = 0;
+	p2wins = 0;
+	pSymbols = ['',''];
+	gameBoard = [['','',''],['','',''],['','','']];
+	$('#game-board').slideUp(animSpeed);
+	$('#extra-buttons').slideUp(animSpeed);
+	$('#player-select').delay(animSpeed).slideDown(animSpeed);
+	return;
+};
+
 // Check for a winning board
 function checkForWin(board,sym) {
 	// check diagonals
@@ -187,6 +201,10 @@ $(document).ready( function() {
 	});
 	$('#o-symbol').click( function() {
 		setP1Symbol('o');
+	});
+	// Reset button
+	$('#restart-button').click( function() {
+		resetBtn();
 	});
 	// Board tiles:
 	// Top row

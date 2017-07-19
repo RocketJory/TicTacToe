@@ -11,6 +11,16 @@ var gameBoard = [['','',''],['','',''],['','','']];
 var rowNum = { bottom:2, middle:1, top:0 };
 var colNum = { left:0, middle:1, right:2 };
 
+// fix the hover effect for mobile
+function fixHover()
+{
+	var el = this;
+	var par = el.parentNode;
+	var next = el.nextSibling;
+	par.removeChild(el);
+	setTimeout(function() {par.insertBefore(el, next);}, 0)
+}
+
 // Set the number of players, go to next menu
 function setNumPlayers(num) {
 	numPlayers = num;
@@ -190,7 +200,7 @@ $(document).ready( function() {
 	// Listeners
 	// Player selects
 	$('#player1-btn').click( function() {
-		setNumPlayers(1);
+		// setNumPlayers(1);
 	});
 	$('#player2-btn').click( function() {
 		setNumPlayers(2);
@@ -236,6 +246,10 @@ $(document).ready( function() {
 	});
 	$('#bottom-right').click( function() {
 		placeSymbol('bottom','right');
+	});
+	// All tiles:
+	$('.board-tile').bind('touchend',function() {
+		fixHover();
 	});
 
 	// Slide down menu

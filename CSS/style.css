@@ -81,7 +81,7 @@
 	line-height: 100%;
 	vertical-align: middle;
 }
-.board-tile.non-touch:hover {
+.board-tile:hover, .board-tile:active {
 	background-color: #428bca;
 	cursor: pointer;
 }
@@ -104,6 +104,6 @@
 	text-align: center;
 }
 
-a:hover{
-	text-decoration: none;
+a {
+	text-decoration: none !important;
 }

@@ -2,6 +2,8 @@ var animSpeed = 400;
 var numPlayers;
 var p1Symbol;
 var p2Symbol;
+var p1name;
+var p2name;
 var p1wins = 0;
 var p2wins = 0;
 var pSymbols = ['',''];
@@ -10,12 +12,21 @@ var gameOn;
 var gameBoard = [['','',''],['','',''],['','','']];
 var rowNum = { bottom:2, middle:1, top:0 };
 var colNum = { left:0, middle:1, right:2 };
+var rowNames = ['top','middle','bottom'];
+var colNames = ['left','middle','right'];
 
 // Set the number of players, go to next menu
 function setNumPlayers(num) {
 	numPlayers = num;
 	$("#player-select").slideUp(animSpeed);
 	$("#symbol-select").delay(animSpeed).slideDown(animSpeed);
+	if ( numPlayers == 1 ) {
+		p1name = 'Player ';
+		p2name = 'Computer ';
+	} else {
+		p1name = 'Player ';
+		p2name = 'Player ';
+	};
 };
 
 function randPlayer() {
@@ -56,12 +67,14 @@ function resetBoard() {
 
 // Update win counters
 function updateScore() {
-	$('#p1text').text('player ' + p1Symbol + ': ' + p1wins);
-	$('#p2text').text('player ' + p2Symbol + ': ' + p2wins);
+	$('#p1text').text(p1name + p1Symbol + ': ' + p1wins);
+	$('#p2text').text(p2name + p2Symbol + ': ' + p2wins);
 };
 
 // Set the player symbols, go to next menu
 function setP1Symbol(symb) {
+	var crow;
+	var ccol;
 	// Set symbols
 	p1Symbol = symb;
 	if ( symb == 'x' ) {
@@ -71,6 +84,7 @@ function setP1Symbol(symb) {
 	}
 	pSymbols[0] = p1Symbol;
 	pSymbols[1] = p2Symbol;
+	console.log('p1 = ' + p1Symbol + ' p2 = ' + p2Symbol);
 	// setup game board
 	$('#p1text').text('player ' + p1Symbol + ': 0');
 	$('#p2text').text('player ' + p2Symbol + ': 0');
@@ -78,10 +92,58 @@ function setP1Symbol(symb) {
 	$('#game-board').delay(animSpeed).slideDown(animSpeed);
 	$('#extra-buttons').delay(animSpeed).slideDown(animSpeed);
 	// initialize game vars
+	updateScore();
 	gameOn = true;
-	playerTurn =randPlayer();
-	$('#turn-text').delay(animSpeed).text(pSymbols[playerTurn]+"'s turn");
+	playerTurn = randPlayer();
 	console.log('player Turn = ' + playerTurn);
+	if ( playerTurn == 1 ) {
+		[crow,ccol] = AImove();
+		placeSymbol(crow,ccol);
+		playerTurn = nextPlayer(playerTurn);
+	};
+};
+
+// handle wins or ties
+function handleWinsTies() {
+	var crow;
+	var ccol;
+	// if win
+	if ( checkForWin(gameBoard,pSymbols[playerTurn]) ) {
+		// alert player
+		alert('player ' + pSymbols[playerTurn] + ' wins!');
+		// increment wins
+		if (playerTurn==0) {
+			p1wins += 1;
+		} else {
+			p2wins += 1;
+		};
+		console.log('win');
+		updateScore();
+		resetBoard();
+		playerTurn = randPlayer();
+		if ( playerTurn == 1 ) {
+			[crow,ccol] = AImove();
+			placeSymbol(crow,ccol);
+			handleWinsTies();
+		};
+		return true;
+	// if not a win
+	} else {
+		// check for a tie
+		if ( checkForTie(gameBoard) ) {
+			console.log('tie');
+			alert("It's a tie!");
+			resetBoard();
+			playerTurn = randPlayer();
+			return true;
+		// if not a tie
+		} else {
+			console.log('not a tie');
+			playerTurn = nextPlayer(playerTurn);
+			console.log('player Turn = ' + playerTurn);
+			return false;
+		};
+	};
 };
 
 // place symbol in specified index
@@ -91,38 +153,11 @@ function placeSymbol(row,col) {
 	var idStr = '#' + row + '-' + col;
 	var symbol = pSymbols[playerTurn];
 	// if tile is blank
-	console.log(playerTurn);
 	if ( gameBoard[irow][icol] == '' ) {
 		console.log(idStr);
 		gameBoard[irow][icol] = symbol;
 		$(idStr).text(symbol);
 		console.log(gameBoard);
-		// if win
-		if ( checkForWin(gameBoard,symbol) ) {
-			// alert player
-			alert('player ' + symbol + ' wins!');
-			// increment wins
-			if (playerTurn==0) {
-				p1wins += 1;
-				updateScore();
-			} else {
-				p2wins += 1;
-				updateScore();
-			}
-			resetBoard();
-			playerTurn = randPlayer();
-		// if not a win
-		} else {
-			// check for a tie
-			if ( checkForTie(gameBoard) ) {
-				alert("It's a tie!");
-				resetBoard();
-				playerTurn = randPlayer();
-			// if not a tie
-			} else {
-				playerTurn = nextPlayer(playerTurn);
-			};
-		};
 	};
 };
 
@@ -181,6 +216,40 @@ function checkForWin(board,sym) {
 	return false;
 };
 
+function AImove() {
+	console.log('AI thinking');
+	var crow;
+	var ccol;
+	// placeholder AI
+	for ( var j=0;j<3;j++ ) {
+		for ( var i=0;i<3;i++ ) {
+			if ( gameBoard[j][i] == '' ) {
+				crow = rowNames[j];
+				ccol = colNames[i];
+				return [crow,ccol];
+			};
+		};
+	};
+};
+
+// Wrapper to drive either single-player or two-player moves
+function gameModes(prow,pcol) {
+	var crow;
+	var ccol;
+	if ( numPlayers == 1 ) {
+		placeSymbol(prow,pcol);
+		finish = handleWinsTies();
+		if ( !finish ) {
+			[crow,ccol] = AImove();
+			placeSymbol(crow,ccol);
+			handleWinsTies();
+		};
+	} else {
+		placeSymbol(prow,pcol);
+		handleWinsTies();
+	};
+};
+
 // ----------------------------------------------------------
 // MAIN FUNCTION
 // ----------------------------------------------------------
@@ -190,7 +259,7 @@ $(document).ready( function() {
 	// Listeners
 	// Player selects
 	$('#player1-btn').click( function() {
-		// setNumPlayers(1);
+		setNumPlayers(1);
 	});
 	$('#player2-btn').click( function() {
 		setNumPlayers(2);
@@ -210,33 +279,33 @@ $(document).ready( function() {
 	// Board tiles:
 	// Top row
 	$('#top-left').click( function() {
-		placeSymbol('top','left');
+		gameModes('top','left');
 	});
 	$('#top-middle').click( function() {
-		placeSymbol('top','middle');
+		gameModes('top','middle');
 	});
 	$('#top-right').click( function() {
-		placeSymbol('top','right');
+		gameModes('top','right');
 	});
 	// Middle row
 	$('#middle-left').click( function() {
-		placeSymbol('middle','left');
+		gameModes('middle','left');
 	});
 	$('#middle-middle').click( function() {
-		placeSymbol('middle','middle');
+		gameModes('middle','middle');
 	});
 	$('#middle-right').click( function() {
-		placeSymbol('middle','right');
+		gameModes('middle','right');
 	});
 	// bottom row
 	$('#bottom-left').click( function() {
-		placeSymbol('bottom','left');
+		gameModes('bottom','left');
 	});
 	$('#bottom-middle').click( function() {
-		placeSymbol('bottom','middle');
+		gameModes('bottom','middle');
 	});
 	$('#bottom-right').click( function() {
-		placeSymbol('bottom','right');
+		gameModes('bottom','right');
 	});
 
 	// Slide down menu

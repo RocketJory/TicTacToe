@@ -96,7 +96,7 @@ function setP1Symbol(symb) {
 	gameOn = true;
 	playerTurn = randPlayer();
 	console.log('player Turn = ' + playerTurn);
-	if ( playerTurn == 1 ) {
+	if ( playerTurn == 1 && numPlayers == 1 ) {
 		[crow,ccol] = AImove();
 		placeSymbol(crow,ccol);
 		playerTurn = nextPlayer(playerTurn);

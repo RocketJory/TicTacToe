@@ -9,7 +9,8 @@ var p2wins = 0;
 var pSymbols = ['',''];
 var playerTurn;
 var gameOn;
-var gameBoard = [['','',''],['','',''],['','','']];
+var initBoard = [['','',''],['','',''],['','','']];
+var gameBoard = initBoard;
 var rowNum = { bottom:2, middle:1, top:0 };
 var colNum = { left:0, middle:1, right:2 };
 var rowNames = ['top','middle','bottom'];
@@ -30,7 +31,7 @@ function setNumPlayers(num) {
 };
 
 function randPlayer() {
-	pturn = Math.floor(Math.random()*2);
+	var pturn = Math.floor(Math.random()*2);
 	$('#turn-text').text(pSymbols[pturn]+"'s turn");
 	return pturn;
 };
@@ -43,6 +44,7 @@ function nextPlayer(num) {
 		nextP = 0;
 	}
 	$('#turn-text').text(pSymbols[nextP]+"'s turn");
+	console.log('player turn = ' + nextP);
 	return nextP;
 };
 
@@ -124,7 +126,7 @@ function handleWinsTies() {
 		if ( playerTurn == 1 ) {
 			[crow,ccol] = AImove();
 			placeSymbol(crow,ccol);
-			handleWinsTies();
+			playerTurn = nextPlayer(playerTurn);
 		};
 		return true;
 	// if not a win
@@ -135,6 +137,11 @@ function handleWinsTies() {
 			alert("It's a tie!");
 			resetBoard();
 			playerTurn = randPlayer();
+			if ( playerTurn == 1 ) {
+				[crow,ccol] = AImove();
+				placeSymbol(crow,ccol);
+				playerTurn = nextPlayer(playerTurn);
+			};
 			return true;
 		// if not a tie
 		} else {
@@ -154,6 +161,7 @@ function placeSymbol(row,col) {
 	var symbol = pSymbols[playerTurn];
 	// if tile is blank
 	if ( gameBoard[irow][icol] == '' ) {
+		console.log('placing symbol...');
 		console.log(idStr);
 		gameBoard[irow][icol] = symbol;
 		$(idStr).text(symbol);
@@ -218,29 +226,119 @@ function checkForWin(board,sym) {
 
 function AImove() {
 	console.log('AI thinking');
+	var newBoard = gameBoard.slice();
 	var crow;
 	var ccol;
 	// placeholder AI
-	for ( var j=0;j<3;j++ ) {
-		for ( var i=0;i<3;i++ ) {
-			if ( gameBoard[j][i] == '' ) {
-				crow = rowNames[j];
-				ccol = colNames[i];
-				return [crow,ccol];
+	if ( false ) {
+		for ( var j=0;j<3;j++ ) {
+			for ( var i=0;i<3;i++ ) {
+				if ( gameBoard[j][i] == '' ) {
+					crow = rowNames[j];
+					ccol = colNames[i];
+					return [crow,ccol];
+				};
 			};
 		};
-	};
+	} else {
+	// minmax AI
+		// check for winning moves
+		for ( var j=0;j<3;j++ ) {
+			for ( var i=0;i<3;i++ ) {
+				var newBoard = gameBoard.slice();
+				if ( newBoard[j][i] == '' ) {
+					newBoard[j][i] = p2Symbol;
+					if ( checkForWin(newBoard,p2Symbol) ) {
+						console.log('AI: winning move');
+						crow = rowNames[j];
+						ccol = colNames[i];
+						gameBoard[j][i] = '';
+						console.log(crow,ccol)
+						return [crow,ccol];
+					} else {
+						newBoard[j][i] = '';
+					}
+				}
+			}
+		}
+		// check for blocking moves
+		for ( var j=0;j<3;j++ ) {
+			for ( var i=0;i<3;i++ ) {
+				var newBoard = gameBoard.slice();
+				if ( newBoard[j][i] == '' ) {
+					newBoard[j][i] = p1Symbol;
+					if ( checkForWin(newBoard,p1Symbol) ) {
+						console.log('AI: blocking move');
+						crow = rowNames[j];
+						ccol = colNames[i];
+						console.log(crow,ccol)
+						gameBoard[j][i] = '';
+						return [crow,ccol];
+					} else {
+						newBoard[j][i] = '';
+					}
+				}
+			}
+		}
+		// otherwise play a corner
+		for (var j=0;j<3;j+=2 ) {
+			for (var i=0;i<3;i+=2 ) {
+				if ( gameBoard[j][i] == '' ) {
+					console.log('AI: corner move');
+					crow = rowNames[j];
+					ccol = colNames[i];
+					console.log(crow,ccol)
+					return [crow,ccol];
+				}
+			}
+		}
+		console.log('AI: other moves');
+		// otherwise play center
+		if ( gameBoard[1][1] == '' ) {
+			crow = rowNames[1];
+			ccol = colNames[1];
+			console.log(crow,ccol)
+			return [crow,ccol];
+		}
+		// otherwise play a side
+		if ( gameBoard[0][1] == '' ) {
+			crow = rowNames[0];
+			ccol = colNames[1];
+			console.log(crow,ccol)
+			return [crow,ccol];
+		}
+		if ( gameBoard[1][0] == '' ) {
+			crow = rowNames[1];
+			ccol = colNames[0];
+			console.log(crow,ccol)
+			return [crow,ccol];
+		}
+		if ( gameBoard[1][2] == '' ) {
+			crow = rowNames[1];
+			ccol = colNames[2];
+			console.log(crow,ccol)
+			return [crow,ccol];
+		}
+		if ( gameBoard[2][1] == '' ) {
+			crow = rowNames[2];
+			ccol = colNames[1];
+			console.log(crow,ccol)
+			return [crow,ccol];
+		}
+	}
 };
 
 // Wrapper to drive either single-player or two-player moves
 function gameModes(prow,pcol) {
 	var crow;
 	var ccol;
+	if ( gameBoard[rowNum[prow]][colNum[pcol]] != '' ) { return; }
 	if ( numPlayers == 1 ) {
 		placeSymbol(prow,pcol);
 		finish = handleWinsTies();
 		if ( !finish ) {
 			[crow,ccol] = AImove();
+			console.log('AI move = ' + crow + ',' + ccol)
 			placeSymbol(crow,ccol);
 			handleWinsTies();
 		};

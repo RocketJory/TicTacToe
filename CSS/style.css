@@ -82,8 +82,8 @@
 	vertical-align: middle;
 }
 .board-tile:hover, .board-tile:active {
-	background-color: #428bca;
-	cursor: pointer;
+	background-color: #428bca !important ;
+	cursor: pointer !important;
 }
 
 .p-button{

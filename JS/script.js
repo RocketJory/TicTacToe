@@ -123,7 +123,7 @@ function handleWinsTies() {
 		updateScore();
 		resetBoard();
 		playerTurn = randPlayer();
-		if ( playerTurn == 1 ) {
+		if ( playerTurn == 1 && numPlayers == 1) {
 			[crow,ccol] = AImove();
 			placeSymbol(crow,ccol);
 			playerTurn = nextPlayer(playerTurn);
@@ -137,7 +137,7 @@ function handleWinsTies() {
 			alert("It's a tie!");
 			resetBoard();
 			playerTurn = randPlayer();
-			if ( playerTurn == 1 ) {
+			if ( playerTurn == 1 && numPlayers == 1 ) {
 				[crow,ccol] = AImove();
 				placeSymbol(crow,ccol);
 				playerTurn = nextPlayer(playerTurn);

@@ -427,6 +427,8 @@ $(document).ready( function() {
 			$(this).css('background-color', '#428bca');
 		}).on('mouseout', function () {
 			$(this).css('background-color', 'white');
+		}).on('click', function () {
+			$(this).css('background-color', 'white');
 		});
 	};
 

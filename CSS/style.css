@@ -81,9 +81,9 @@
 	line-height: 100%;
 	vertical-align: middle;
 }
+
 .board-tile:hover, .board-tile:active {
-	background-color: #428bca !important ;
-	cursor: pointer !important;
+	cursor: pointer;
 }
 
 .p-button{

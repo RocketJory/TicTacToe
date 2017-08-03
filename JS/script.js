@@ -16,12 +16,6 @@ var colNum = { left:0, middle:1, right:2 };
 var rowNames = ['top','middle','bottom'];
 var colNames = ['left','middle','right'];
 
-function fadeBack(el) {
-	console.log('fadeBack');
-	console.log(el);
-	$(el).css("background-color","white");
-}
-
 // Set the number of players, go to next menu
 function setNumPlayers(num) {
 	numPlayers = num;
@@ -400,6 +394,13 @@ function gameModes(prow,pcol) {
 $(document).ready( function() {
 	console.log("script start");
 
+	// get array of tile id's
+	var tiles = document.getElementsByClassName('board-tile');
+	var tileIds = [];
+	for (var i=0;i<tiles.length;i++) {
+		tileIds.push(tiles[i].id);
+	};
+
 	// Listeners
 	// Player selects
 	$('#player1-btn').click( function() {
@@ -421,43 +422,42 @@ $(document).ready( function() {
 		resetBtn();
 	});
 	// Board tiles:
+	for (tile in tileIds) {
+		$('#'+tileIds[tile]).on('mouseover', function () {
+			$(this).css('background-color', '#428bca');
+		}).on('mouseout', function () {
+			$(this).css('background-color', 'white');
+		});
+	};
+
 	// Top row
 	$('#top-left').click( function() {
-		fadeBack(this);
 		gameModes('top','left');
 	});
 	$('#top-middle').click( function() {
-		fadeBack(this);
 		gameModes('top','middle');
 	});
 	$('#top-right').click( function() {
-		fadeBack(this);
 		gameModes('top','right');
 	});
 	// Middle row
 	$('#middle-left').click( function() {
-		fadeBack(this);
 		gameModes('middle','left');
 	});
 	$('#middle-middle').click( function() {
-		fadeBack(this);
 		gameModes('middle','middle');
 	});
 	$('#middle-right').click( function() {
-		fadeBack(this);
 		gameModes('middle','right');
 	});
 	// bottom row
 	$('#bottom-left').click( function() {
-		fadeBack(this);
 		gameModes('bottom','left');
 	});
 	$('#bottom-middle').click( function() {
-		fadeBack(this);
 		gameModes('bottom','middle');
 	});
 	$('#bottom-right').click( function() {
-		fadeBack(this);
 		gameModes('bottom','right');
 	});
 

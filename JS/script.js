@@ -229,6 +229,9 @@ function AImove() {
 	var newBoard = gameBoard.slice();
 	var crow;
 	var ccol;
+	var freeMoves = [];
+	var numFreeMoves = 0;
+	var moveNum;
 	// placeholder AI
 	if ( false ) {
 		for ( var j=0;j<3;j++ ) {
@@ -284,13 +287,25 @@ function AImove() {
 		for (var j=0;j<3;j+=2 ) {
 			for (var i=0;i<3;i+=2 ) {
 				if ( gameBoard[j][i] == '' ) {
-					console.log('AI: corner move');
+					numFreeMoves += 1;
+					console.log('numFreeMoves = ' + numFreeMoves);
 					crow = rowNames[j];
 					ccol = colNames[i];
+					freeMoves.push([j,i]);
 					console.log(crow,ccol)
-					return [crow,ccol];
 				}
 			}
+		}
+		if (numFreeMoves > 0) {
+			console.log('AI: corner move');
+			console.log('free moves = ');
+			console.log(freeMoves);
+			moveNum = Math.floor(Math.random()*numFreeMoves);
+			console.log('moveNum = ' + moveNum);
+			crow = rowNames[freeMoves[moveNum][0]];
+			ccol = colNames[freeMoves[moveNum][1]];
+			console.log(crow,ccol)
+			return [crow,ccol];
 		}
 		console.log('AI: other moves');
 		// otherwise play center
@@ -300,28 +315,51 @@ function AImove() {
 			console.log(crow,ccol)
 			return [crow,ccol];
 		}
+		// reinitialize moves array
+		numFreeMoves = 0;
+		freeMoves = [];
 		// otherwise play a side
 		if ( gameBoard[0][1] == '' ) {
 			crow = rowNames[0];
 			ccol = colNames[1];
-			console.log(crow,ccol)
-			return [crow,ccol];
+			numFreeMoves += 1;
+			freeMoves.push([j,i]);
+			console.log('numFreeMoves = ' + numFreeMoves);
+			console.log(crow,ccol);
 		}
 		if ( gameBoard[1][0] == '' ) {
 			crow = rowNames[1];
 			ccol = colNames[0];
-			console.log(crow,ccol)
-			return [crow,ccol];
+			numFreeMoves += 1;
+			freeMoves.push([j,i]);
+			console.log('numFreeMoves = ' + numFreeMoves);
+			console.log(crow,ccol);
 		}
 		if ( gameBoard[1][2] == '' ) {
 			crow = rowNames[1];
 			ccol = colNames[2];
-			console.log(crow,ccol)
-			return [crow,ccol];
+			numFreeMoves += 1;
+			freeMoves.push([j,i]);
+			console.log('numFreeMoves = ' + numFreeMoves);
+			console.log(crow,ccol);
 		}
 		if ( gameBoard[2][1] == '' ) {
 			crow = rowNames[2];
 			ccol = colNames[1];
+			numFreeMoves += 1;
+			freeMoves.push([j,i]);
+			console.log('numFreeMoves = ' + numFreeMoves);
+			console.log(crow,ccol);
+		}
+		// pick an available side move
+		if (numFreeMoves > 0) {
+			console.log('AI: side move');
+			console.log('free moves = ');
+			console.log(freeMoves);
+			moveNum = Math.floor(Math.random()*numFreeMoves);
+			console.log('moveNum = ' + moveNum);
+			crow = rowNames[freeMoves[moveNum][0]];
+			ccol = colNames[freeMoves[moveNum][1]];
 			console.log(crow,ccol)
 			return [crow,ccol];
 		}

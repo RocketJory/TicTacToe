@@ -105,10 +105,16 @@ function setP1Symbol(symb) {
 	};
 };
 
-// handle wins or ties
-function handleWinsTies() {
+function AIturn() {
 	var crow;
 	var ccol;
+	[crow,ccol] = AImove();
+	placeSymbol(crow,ccol);
+	playerTurn = nextPlayer(playerTurn);
+};
+
+// handle wins or ties
+function handleWinsTies() {
 	// if win
 	if ( checkForWin(gameBoard,pSymbols[playerTurn]) ) {
 		// alert player
@@ -124,9 +130,7 @@ function handleWinsTies() {
 		resetBoard();
 		playerTurn = randPlayer();
 		if ( playerTurn == 1 && numPlayers == 1) {
-			[crow,ccol] = AImove();
-			placeSymbol(crow,ccol);
-			playerTurn = nextPlayer(playerTurn);
+			AIturn();
 		};
 		return true;
 	// if not a win
@@ -138,9 +142,7 @@ function handleWinsTies() {
 			resetBoard();
 			playerTurn = randPlayer();
 			if ( playerTurn == 1 && numPlayers == 1 ) {
-				[crow,ccol] = AImove();
-				placeSymbol(crow,ccol);
-				playerTurn = nextPlayer(playerTurn);
+				AIturn();
 			};
 			return true;
 		// if not a tie

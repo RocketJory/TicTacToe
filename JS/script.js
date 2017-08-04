@@ -128,7 +128,7 @@ function handleWinsTies() {
 		console.log('win');
 		updateScore();
 		resetBoard();
-		playerTurn = randPlayer();
+		playerTurn = nextPlayer(playerTurn);
 		if ( playerTurn == 1 && numPlayers == 1) {
 			AIturn();
 		};
@@ -393,6 +393,7 @@ function gameModes(prow,pcol) {
 // ----------------------------------------------------------
 $(document).ready( function() {
 	console.log("script start");
+	var touchsupport = ('ontouchstart' in window) || (navigator.maxTouchPoints > 0) || (navigator.msMaxTouchPoints > 0)
 
 	// get array of tile id's
 	var tiles = document.getElementsByClassName('board-tile');
@@ -421,17 +422,19 @@ $(document).ready( function() {
 		resetBoard();
 		resetBtn();
 	});
-	// Board tiles:
-	for (tile in tileIds) {
-		$('#'+tileIds[tile]).on('mouseover', function () {
-			$(this).css('background-color', '#428bca');
-		}).on('mouseout', function () {
-			$(this).css('background-color', 'white');
-		}).on('click', function () {
-			$(this).css('background-color', 'white');
-		});
+	// tile hovers:
+	if (!touchsupport) {
+		for (tile in tileIds) {
+			$('#'+tileIds[tile]).on('mouseenter', function () {
+				$(this).css('background-color', '#428bca');
+			}).on('mouseleave', function () {
+				$(this).css('background-color', 'white');
+			}).on('click', function () {
+				$(this).css('background-color', 'white');
+			});
+		};
 	};
-
+	// Board tile clicks:
 	// Top row
 	$('#top-left').click( function() {
 		gameModes('top','left');

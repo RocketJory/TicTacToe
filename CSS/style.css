@@ -17,9 +17,9 @@
 	box-shadow: 5px 5px 5px rgba(0,0,0,.5);
 }
 
-#player-select { }
-#symbol-select { }
-#game-board { }
+.ptext {
+	text-align: center;
+}
 
 #top-left {
 	border-bottom: solid 0.25rem black;
